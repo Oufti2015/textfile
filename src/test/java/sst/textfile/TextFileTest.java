@@ -2,10 +2,17 @@ package sst.textfile;
 
 import java.io.File;
 
+import org.junit.After;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 public class TextFileTest {
+
+    @Before
+    public void init() {
+
+    }
 
     @Test
     public void testTextFile() {
@@ -89,5 +96,12 @@ public class TextFileTest {
 	    e.printStackTrace();
 	}
 
+    }
+
+    @After
+    public void close() {
+	File file = new File("Test.txt");
+	file.delete();
+	Assert.assertFalse(file.exists());
     }
 }
