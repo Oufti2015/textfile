@@ -87,4 +87,10 @@ public class OutputTextFileImpl implements OutputTextFile {
     public void sort(Boolean sorted) {
 	this.sorted = sorted;
     }
+
+    @Override
+    public void serialize(SerializableToTextFile source) throws IOException {
+	buffer.addAll(source.text());
+	flush();
+    }
 }

@@ -1,6 +1,8 @@
 package sst.textfile;
 
 import java.io.File;
+import java.util.Arrays;
+import java.util.List;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -21,7 +23,7 @@ public class TextFileTest {
 
     @Before
     public void before() {
-	System.out.println("@Before");
+	System.out.println("@Before -----------------------------------");
     }
 
     @Test
@@ -104,12 +106,48 @@ public class TextFileTest {
 	} catch (Exception e) {
 	    e.printStackTrace();
 	}
+    }
 
+    @Test
+    public void testSerialize() {
+
+	File file = new File(TEST_TXT);
+
+	try (OutputTextFile textFile = new OutputTextFileImpl(file)) {
+	    textFile.sort(true);
+
+	    textFile.serialize(new SerializableToTextFile() {
+		List<String> source = Arrays.asList("one", "two", "three", "four", "five", "six", "seven", "eight",
+			"nine", "ten");
+
+		@Override
+		public List<String> text() {
+		    return source;
+		}
+	    });
+
+	} catch (Exception e) {
+	    e.printStackTrace();
+	}
+
+	Assert.assertTrue(file.exists());
+
+	try {
+	    InputTextFile textFile = new InputTextFileImpl(file);
+
+	    textFile.lines()
+		    .forEach(l -> System.out.println(" -- " + l));
+
+	    Long count = textFile.lines().count();
+	    Assert.assertEquals(new Long(10L), count);
+	} catch (Exception e) {
+	    e.printStackTrace();
+	}
     }
 
     @After
     public void after() {
-	System.out.println("@After");
+	System.out.println("@After -----------------------------------");
     }
 
     @AfterClass
