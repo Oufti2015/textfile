@@ -3,23 +3,31 @@ package sst.textfile;
 import java.io.File;
 
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class TextFileTest {
 
-    @Before
-    public void init() {
+    private static final String TEST_TXT = "Test.txt";
 
+    @BeforeClass
+    public static void beforeClass() {
+	System.out.println("@BeforeClass");
+	deleteFile();
+    }
+
+    @Before
+    public void before() {
+	System.out.println("@Before");
     }
 
     @Test
     public void testTextFile() {
-
-	File file = new File("Test.txt");
-	file.delete();
-	Assert.assertFalse(file.exists());
+	System.out.println("@Test");
+	File file = new File(TEST_TXT);
 	try (OutputTextFile textFile = new OutputTextFileImpl(file, 3)) {
 	    textFile.saveLine("un");
 	    textFile.saveLine("deux");
@@ -39,7 +47,8 @@ public class TextFileTest {
 
     @Test
     public void testReadFile() {
-	File file = new File("Test.txt");
+	System.out.println("@Test");
+	File file = new File(TEST_TXT);
 	Assert.assertTrue(file.exists());
 	try {
 	    InputTextFile textFile = new InputTextFileImpl(file);
@@ -57,10 +66,9 @@ public class TextFileTest {
 
     @Test
     public void testTextFileSorted() {
+	System.out.println("@Test");
 
-	File file = new File("Test.txt");
-	file.delete();
-	Assert.assertFalse(file.exists());
+	File file = new File(TEST_TXT);
 	try (OutputTextFile textFile = new OutputTextFileImpl(file, 3)) {
 	    textFile.sort(true);
 
@@ -82,7 +90,8 @@ public class TextFileTest {
 
     @Test
     public void testReadFileSorted() {
-	File file = new File("Test.txt");
+	System.out.println("@Test");
+	File file = new File(TEST_TXT);
 	Assert.assertTrue(file.exists());
 	try {
 	    InputTextFile textFile = new InputTextFileImpl(file);
@@ -99,8 +108,18 @@ public class TextFileTest {
     }
 
     @After
-    public void close() {
-	File file = new File("Test.txt");
+    public void after() {
+	System.out.println("@After");
+    }
+
+    @AfterClass
+    public static void afterClass() {
+	System.out.println("@AfterClass");
+	deleteFile();
+    }
+
+    private static void deleteFile() {
+	File file = new File(TEST_TXT);
 	file.delete();
 	Assert.assertFalse(file.exists());
     }
