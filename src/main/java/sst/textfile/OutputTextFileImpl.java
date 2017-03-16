@@ -29,54 +29,14 @@ public class OutputTextFileImpl implements OutputTextFile {
 	init();
     }
 
-    private void init() throws IOException {
-	buffer = new ArrayList<>(bufferSize);
-	output = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), "UTF-8"));
-    }
-
     @Override
     public void saveLine(String line) throws IOException {
 	buffer.add(line);
 	flush();
     }
 
-    private void flush() throws IOException {
-	flush(false);
-    }
-
-    private void flush(Boolean forceWrite) throws IOException {
-	Runnable runnable = () -> {
-	    final String name = Thread.currentThread().getName();
-	    try {
-		System.out.println(name + " - Flushing " + buffer.size() + " lines...");
-		for (String line : buffer) {
-		    output.write(line + "\n");
-		}
-		output.flush();
-		buffer = new ArrayList<>(bufferSize);
-		System.out.println(name + " - ...done.");
-	    } catch (IOException e) {
-		System.err.println("Cannot write to " + file + " : " + e);
-		e.printStackTrace();
-	    }
-	};
-
-	if ((forceWrite && buffer.size() > 0) || (!sorted && buffer.size() >= bufferSize)) {
-
-	    if (sorted) {
-		buffer = buffer.stream()
-			.sorted()
-			.collect(Collectors.toList());
-	    }
-	    runnable.run();
-	}
-    }
-
     @Override
     public void close() throws Exception {
-	final String name = Thread.currentThread().getName();
-	System.out.println(name + " - Closing...");
-
 	if (output != null) {
 	    flush(true);
 	    output.close();
@@ -92,5 +52,30 @@ public class OutputTextFileImpl implements OutputTextFile {
     public void serialize(SerializableToTextFile source) throws IOException {
 	buffer.addAll(source.text());
 	flush();
+    }
+
+    private void init() throws IOException {
+	buffer = new ArrayList<>(bufferSize);
+	output = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), "UTF-8"));
+    }
+
+    private void flush() throws IOException {
+	flush(false);
+    }
+
+    private void flush(Boolean forceWrite) throws IOException {
+	if ((forceWrite && buffer.size() > 0) || (!sorted && buffer.size() >= bufferSize)) {
+
+	    if (sorted) {
+		buffer = buffer.stream()
+			.sorted()
+			.collect(Collectors.toList());
+	    }
+	    for (String line : buffer) {
+		output.write(line + "\n");
+	    }
+	    output.flush();
+	    buffer = new ArrayList<>(bufferSize);
+	}
     }
 }
