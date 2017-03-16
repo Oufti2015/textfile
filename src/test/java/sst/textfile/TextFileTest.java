@@ -58,8 +58,8 @@ public class TextFileTest {
 	    textFile.lines()
 		    .forEach(l -> System.out.println(" -- " + l));
 
-	    Long count = textFile.lines().count();
-	    Assert.assertEquals(new Long(10L), count);
+	    Integer count = textFile.lines().size();
+	    Assert.assertEquals(new Integer(10), count);
 	} catch (Exception e) {
 	    e.printStackTrace();
 	}
@@ -101,8 +101,8 @@ public class TextFileTest {
 	    textFile.lines()
 		    .forEach(l -> System.out.println(" -- " + l));
 
-	    Long count = textFile.lines().count();
-	    Assert.assertEquals(new Long(10L), count);
+	    Integer count = textFile.lines().size();
+	    Assert.assertEquals(new Integer(10), count);
 	} catch (Exception e) {
 	    e.printStackTrace();
 	}
@@ -138,8 +138,8 @@ public class TextFileTest {
 	    textFile.lines()
 		    .forEach(l -> System.out.println(" -- " + l));
 
-	    Long count = textFile.lines().count();
-	    Assert.assertEquals(new Long(10L), count);
+	    Integer count = textFile.lines().size();
+	    Assert.assertEquals(new Integer(10), count);
 	} catch (Exception e) {
 	    e.printStackTrace();
 	}

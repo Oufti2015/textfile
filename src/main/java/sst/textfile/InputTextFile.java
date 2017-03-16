@@ -1,10 +1,10 @@
 package sst.textfile;
 
 import java.io.IOException;
-import java.util.stream.Stream;
+import java.util.List;
 
 public interface InputTextFile {
 
-    public Stream<String> lines() throws IOException;
+    public List<String> lines() throws IOException;
 
 }

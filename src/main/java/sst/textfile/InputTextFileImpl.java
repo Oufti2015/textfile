@@ -6,7 +6,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Stream;
 
 public class InputTextFileImpl implements InputTextFile {
 
@@ -17,7 +16,7 @@ public class InputTextFileImpl implements InputTextFile {
     }
 
     @Override
-    public Stream<String> lines() throws IOException {
+    public List<String> lines() throws IOException {
 	List<String> result = new ArrayList<>();
 	String line;
 	try (BufferedReader input = new BufferedReader(new FileReader(this.file))) {
@@ -25,7 +24,7 @@ public class InputTextFileImpl implements InputTextFile {
 		result.add(line);
 	    }
 	}
-	return result.stream();
+	return result;
     }
 
 }
