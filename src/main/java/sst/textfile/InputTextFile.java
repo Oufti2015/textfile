@@ -7,4 +7,5 @@ public interface InputTextFile {
 
     public List<String> lines() throws IOException;
 
+    public String oneLine() throws IOException;
 }

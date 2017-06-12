@@ -27,4 +27,8 @@ public class InputTextFileImpl implements InputTextFile {
 	return result;
     }
 
+    @Override
+    public String oneLine() throws IOException {
+	return String.join(" ", lines());
+    }
 }
