@@ -5,7 +5,7 @@ import java.util.List;
 
 public interface InputTextFile {
 
-    public List<String> lines() throws IOException;
+    List<String> lines() throws IOException;
 
-    public String oneLine() throws IOException;
+    String oneLine() throws IOException;
 }
